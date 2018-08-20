@@ -1,0 +1,6 @@
+src/
+.circleci/
+.prettierrc
+tsconfig.json
+yarn.lock
+dist/countries/
