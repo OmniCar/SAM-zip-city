@@ -81,7 +81,7 @@ export var initZipCityCountry = function (cityLookup) { return __awaiter(_this, 
                     return [2 /*return*/, zipcodeCountryMap];
                 }
                 scriptPath = "" + fileLocation + country.toLowerCase() + ".js";
-                return [4 /*yield*/, loadScript(scriptPath, "zipCity-" + country + "'")
+                return [4 /*yield*/, loadScript(scriptPath, "zipCity-" + country)
                     // Check again if the variable is available
                 ];
             case 1:

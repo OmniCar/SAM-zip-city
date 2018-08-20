@@ -46,7 +46,7 @@ export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCode
   }
   // Load the script asynchronously
   const scriptPath = `${fileLocation!}${country.toLowerCase()}.js`
-  await loadScript(scriptPath, `zipCity-${country}'`)
+  await loadScript(scriptPath, `zipCity-${country}`)
   // Check again if the variable is available
   zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, country)
   if (zipcodeCountryMap) {
