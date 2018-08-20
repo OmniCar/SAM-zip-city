@@ -40,5 +40,8 @@
     "test": "jest",
     "test-watch": "jest --watchAll",
     "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
+  },
+  "dependencies": {
+    "tslib": "^1.9.3"
   }
 }
