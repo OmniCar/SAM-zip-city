@@ -7,7 +7,7 @@
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "lib": [
       "es2018", "dom"
     ],
@@ -35,7 +35,6 @@
   "exclude": [
     "node_modules",
     "src/**/*.test.ts",
-    "test/",
     "dist",
     "src/countries/*.ts"
   ]

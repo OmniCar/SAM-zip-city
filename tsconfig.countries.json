@@ -4,8 +4,9 @@
     "module": "es2015",
     "declaration": false
   },
-  "exclude": [],
-  "include": [
-    "src/countries/*.ts"
+  "exclude": [
+    "node_modules",
+    "src/*.ts",
+    "dist"
   ]
 }
