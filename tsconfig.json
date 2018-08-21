@@ -7,11 +7,11 @@
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "lib": [
       "es2018", "dom"
     ],
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -36,6 +36,7 @@
     "node_modules",
     "src/**/*.test.ts",
     "test/",
-    "dist"
+    "dist",
+    "src/countries/*.ts"
   ]
 }

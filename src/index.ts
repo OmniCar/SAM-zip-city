@@ -1,5 +1,3 @@
-import { loadScript } from './loadScript'
-
 export type Country = 'DK' | 'SE'
 
 export interface IZipCodes {
@@ -61,4 +59,22 @@ const getZipcodeMapFromGlobal = (global: any, country: Country) => {
     zipcodeCache[country] = zipcodeCountryMap
     return zipcodeCountryMap
   }
+}
+
+const loadScript = (src: string, id: string) => {
+  return new Promise((resolve, reject) => {
+    const existingScript = document.getElementById(id)
+    if (!existingScript) {
+      let s
+      s = document.createElement('script')
+      s.src = src
+      s.id = id
+      s.onload = resolve
+      s.onerror = reject
+      s.async = true
+      document.head.appendChild(s)
+    } else {
+      resolve()
+    }
+  })
 }

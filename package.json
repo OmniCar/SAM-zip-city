@@ -35,13 +35,13 @@
     ]
   },
   "scripts": {
-    "tsc": "rm -rf dist/ && node node_modules/typescript/bin/tsc -p ./tsconfig.json -w",
-    "tsc-once": "rm -rf dist/ && node node_modules/typescript/bin/tsc -p ./tsconfig.json",
+    "cleanup": "rm -rf dist/",
+    "tsc": "node node_modules/typescript/bin/tsc -p ./tsconfig.json",
+    "tsc-countries": "node node_modules/typescript/bin/tsc -p ./tsconfig.countries.json",
+    "tscw": "node node_modules/typescript/bin/tsc -p ./tsconfig.json -w",
+    "tsc-once": "yarn cleanup && yarn tsc && yarn tsc-countries",
     "test": "jest",
     "test-watch": "jest --watchAll",
     "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
-  },
-  "dependencies": {
-    "tslib": "^1.9.3"
   }
 }
