@@ -42,7 +42,6 @@ export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCode
 
 export const getCityFromZip = async (cityLookup: ICityLookup) => {
   const { zipcode } = cityLookup
-  }
   const countryMap = await initZipCityCountry(cityLookup)
   if (!countryMap) {
     return false
