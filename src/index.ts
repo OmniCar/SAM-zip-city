@@ -17,19 +17,6 @@ export interface ICityLookup {
 
 export type CityConf = Pick<ICityLookup, 'country' | 'fileLocation' | 'global'>
 
-export const getCityFromZip = async (cityLookup: ICityLookup) => {
-  const { zipcode } = {
-    ...cityLookup,
-  }
-  const countryMap = await initZipCityCountry(cityLookup)
-  if (!countryMap) {
-    return false
-  }
-  const zipKey = `${zipcode}`.replace(' ', '')
-  const cityName = countryMap.hasOwnProperty(zipKey) ? countryMap[zipKey] : false
-  return cityName
-}
-
 const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
 
 export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCodes | undefined> => {
@@ -51,6 +38,18 @@ export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCode
     return zipcodeCountryMap
   }
   return undefined
+}
+
+export const getCityFromZip = async (cityLookup: ICityLookup) => {
+  const { zipcode } = cityLookup
+  }
+  const countryMap = await initZipCityCountry(cityLookup)
+  if (!countryMap) {
+    return false
+  }
+  const zipKey = `${zipcode}`.replace(' ', '')
+  const cityName = countryMap.hasOwnProperty(zipKey) ? countryMap[zipKey] : false
+  return cityName
 }
 
 const getZipcodeMapFromGlobal = (global: any, country: Country) => {
