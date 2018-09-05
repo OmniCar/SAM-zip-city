@@ -1,4 +1,7 @@
 # SAM zip-city
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/OmniCar/SAM-zip-city.svg)](https://greenkeeper.io/)
+
 This library aims to do city lookups in a fast (client-side), generic way.
 
 The script will dynamically load the appropriate file with zipcodes and city names for a given country.
