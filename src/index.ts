@@ -1,3 +1,5 @@
+import { IsoLocale } from '@omnicar/sam-types'
+
 export type Country = 'DK' | 'SE'
 
 export interface IZipCodes {
@@ -10,17 +12,21 @@ let zipcodeCache: ZipCodeMap = {}
 
 export interface ICityLookup {
   zipcode: number | string
-  country: Country
+  locale: IsoLocale
   fileLocation?: string
   global?: any
 }
 
-export type CityConf = Pick<ICityLookup, 'country' | 'fileLocation' | 'global'>
+export type CityConf = Pick<ICityLookup, 'locale' | 'fileLocation' | 'global'>
 
 const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
 
+export const getCountryFromLocale = (locale: IsoLocale) => locale.split('-')[1] as Country
+
 export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCodes | undefined> => {
-  const { country, fileLocation = defaultFileLocation, global } = cityLookup
+  const { locale, fileLocation = defaultFileLocation, global } = cityLookup
+  const country = getCountryFromLocale(locale)
+
   if (zipcodeCache[country]) {
     return zipcodeCache[country]
   }
