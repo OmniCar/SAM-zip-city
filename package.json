@@ -13,7 +13,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@omnicar/sam-types": "0.0.128",
+    "@omnicar/sam-types": "0.0.153",
     "@types/jest": "23.3.12",
     "@types/node": "10.12.18",
     "jest": "23.6.0",
