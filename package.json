@@ -10,7 +10,7 @@
   "author": "Erik Beuschau",
   "license": "MIT",
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@omnicar/sam-types": "0.0.156",
