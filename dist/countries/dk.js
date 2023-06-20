@@ -1345,3 +1345,4 @@ var zipcodeMapDK = {
     '960': 'Hov',
     '970': 'Sumba',
 };
+export {};

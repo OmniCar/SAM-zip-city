@@ -7,18 +7,18 @@
     "zipcode",
     "typescript"
   ],
-  "author": "Erik Beuschau",
+  "author": "Erik Beuschau, Marko K. Seppänen",
   "license": "MIT",
   "dependencies": {
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@omnicar/sam-types": "0.0.156",
+    "@omnicar/sam-types": "0.0.641",
     "@types/jest": "24.0.11",
     "@types/node": "^11.13.0",
     "jest": "^24.7.0",
     "ts-jest": "^24.0.1",
-    "typescript": "^3.4.1"
+    "typescript": "^4.1.6"
   },
   "jest": {
     "transform": {

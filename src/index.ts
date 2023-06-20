@@ -82,7 +82,7 @@ const loadScript = (src: string, id: string) => {
         reject()
       }
     } else {
-      resolve()
+      resolve(existingScript)
     }
   })
 }
