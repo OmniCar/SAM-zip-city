@@ -1,6 +1,6 @@
 import { IZipCodes } from '../index'
 
-const zipcodeMapDK: IZipCodes = {
+export const zipcodeMap: IZipCodes = {
   '1000': 'København K',
   '1001': 'København K',
   '1002': 'København K',

@@ -1,6 +1,6 @@
 import { IZipCodes } from '../index'
 
-const zipcodeMapSE: IZipCodes = {
+export const zipcodeMap: IZipCodes = {
   '18600': 'Vallentuna',
   '18601': 'Vallentuna',
   '18603': 'Brottby',

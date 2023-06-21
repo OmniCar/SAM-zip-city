@@ -1,4 +1,4 @@
-var zipcodeMapSE = {
+export var zipcodeMap = {
     '18600': 'Vallentuna',
     '18601': 'Vallentuna',
     '18603': 'Brottby',
@@ -16082,4 +16082,3 @@ var zipcodeMapSE = {
     '74950': 'Ekolsund',
     '77220': 'Grängesberg',
 };
-export {};
