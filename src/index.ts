@@ -1,6 +1,6 @@
 import { TIsoCountry } from '@omnicar/sam-types'
 
-const supportedCountries: TIsoCountry[] = ['DK', 'SE']
+const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI']
 
 export interface IZipCodes {
   [key: string]: string
@@ -78,6 +78,11 @@ const getZipcodeMapFromGlobal = (global: any, country: TIsoCountry) => {
 }
 
 const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> => {
+  if (!supportedCountries.includes(country)) {
+    console.warn("Warning: This country with isoCode '" + country + "' is not supported")
+    return false
+  }
+
   let zipcodeMap: IZipCodes | false = false
   try {
     zipcodeMap = await import('./countries/' + country + '.ts') // Dynamic importing.

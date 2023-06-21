@@ -126,3 +126,40 @@ describe('Test Zip codes for Sweden (SE)', () => {
     expect(resultCity).toEqual(expectedCity)
   })
 })
+
+describe('Test Zip codes for Finnish (FI)', () => {
+  const isoCountryFI: TIsoCountry = 'FI'
+
+  beforeAll(() => {
+    initZipCityCountry({ isoCountryCode: isoCountryFI })
+  })
+
+  it('Returns the correct Finnish city <false> for zipcode "0"', async () => {
+    const givenZipCode = 0
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryFI })
+    const expectedCity = false
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Finland city Espoo for zipcode "02600"', async () => {
+    const givenZipCode = '02600'
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryFI })
+    const expectedCity = 'Espoo'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Finnish city Kemijärvi for zipcode 981 00', async () => {
+    const givenZipCode = '981 00'
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryFI })
+    const expectedCity = 'Kemijärvi'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Finnish city Rovaniemi for zipcode 99999', async () => {
+    const givenZipCode = 99999
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryFI })
+    const expectedCity = 'Rovaniemi'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+})
