@@ -1,6 +1,7 @@
 {
   "name": "@omnicar/sam-zip-city",
   "description": "A simple tool for looking up city names based on zipcode inputs.",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "keywords": [
@@ -47,6 +48,7 @@
     "test-watch": "jest --watchAll",
     "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
   },
-  "files": ["data"]
-
+  "files": [
+    "./data"
+  ]
 }
