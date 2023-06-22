@@ -37,5 +37,5 @@
     "src/**/*.test.ts",
     "dist",
   ],
-  "include": ["src"]
+  "include": ["src/countries"]
 }
