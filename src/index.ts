@@ -35,12 +35,12 @@ export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCode
     return zipcodeCountryMap
   }
 
-  const result = await loadCountryMap(isoCountryCode)
-  if (!result) {
+  const zipcodeMap = await loadCountryMap(isoCountryCode)
+  if (!zipcodeMap) {
     return undefined
   }
 
-  myGlobal[isoCountryCode] = result.zipcodeMap
+  myGlobal[isoCountryCode] = zipcodeMap
 
   // Check again if the variable is available.
   zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, isoCountryCode)
@@ -83,12 +83,15 @@ const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> 
     return false
   }
 
+  let response: any = false
   let zipcodeMap: IZipCodes | false = false
   try {
-    zipcodeMap = await import('./countries/' + country + '.ts') // Dynamic importing.
+    response = await import('../data/countries/' + country + '.json')
+    zipcodeMap = response.zipcodeMap
   } catch (err) {
     console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
     return false
   }
+
   return zipcodeMap
 }

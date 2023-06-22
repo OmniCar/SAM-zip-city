@@ -1,7 +1,7 @@
 import { TIsoCountry } from '@omnicar/sam-types'
 import { getCityFromZip, initZipCityCountry } from './index'
 
-describe('Load dk country', () => {
+describe('Load mocked data', () => {
   const mockGlobal: any = {}
   mockGlobal.zipcodeMapDK = {
     '2300': 'København S',
@@ -11,7 +11,7 @@ describe('Load dk country', () => {
   }
 
   it('Returns false for an incorrect zipcode', async () => {
-    const city = await getCityFromZip({ zipcode: 99999, isoCountryCode: 'DK', global: mockGlobal })
+    const city = await getCityFromZip({ zipcode: 9994646599, isoCountryCode: 'DK', global: mockGlobal })
     expect(city).toEqual(false)
   })
   it('Returns false for an incorrect zipcode', async () => {
