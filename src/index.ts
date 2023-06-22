@@ -90,8 +90,27 @@ const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> 
     zipcodeMap = response.zipcodeMap
   } catch (err) {
     console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
+
+    try {
+      response = await import('../countries/' + country + '.json')
+      zipcodeMap = response.zipcodeMap
+    } catch (err) {
+      console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
+
+      try {
+        response = await import('./' + country + '.json')
+        zipcodeMap = response.zipcodeMap
+      } catch (err) {
+        console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
+        return false
+      }
+
+      return false
+    }
     return false
   }
 
+  console.log('zipcodeMap:')
+  console.log(zipcodeMap)
   return zipcodeMap
 }

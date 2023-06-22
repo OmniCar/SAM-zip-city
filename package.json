@@ -49,6 +49,6 @@
     "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
   },
   "files": [
-    "./data"
+    "data/","data/countries"
   ]
 }
