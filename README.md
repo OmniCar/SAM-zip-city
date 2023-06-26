@@ -7,7 +7,7 @@ This allows for smaller bundle size and means that the file(s) are only download
 
 _But all the zipcode files are inside the repo?_
 
-Yes, but they are in .npmignore and are fetched with [jsdelivr.com](https://www.jsdelivr.com/) directly from Github.
+The zip-code are fetched from admin.omnicar.io/data/zip-codes/
 
 ## How to install
 `npm install @omnicar/sam-zip-city` or `yarn add @omnicar/sam-zip-city`
