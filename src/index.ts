@@ -1,5 +1,12 @@
+import fetch from 'node-fetch'
 import { TIsoCountry } from '@omnicar/sam-types'
 
+const isFetchJsonLocally = false
+// const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
+// JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
+const searchDataLocations: string[] = [/*'./countries/',*/ 'https://admin.omnicar.io/data/zip-codes/']
+
+const isAllowOnlySupportedCounties = false
 const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI']
 
 export interface IZipCodes {
@@ -19,10 +26,8 @@ export interface ICityLookup {
 
 export type CityConf = Pick<ICityLookup, 'isoCountryCode' | 'fileLocation' | 'global'>
 
-const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
-
 export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCodes | undefined> => {
-  const { isoCountryCode, fileLocation = defaultFileLocation, global } = cityLookup
+  const { isoCountryCode, fileLocation = searchDataLocations, global } = cityLookup
 
   if (zipcodeCache[isoCountryCode]) {
     return zipcodeCache[isoCountryCode]
@@ -78,44 +83,47 @@ const getZipcodeMapFromGlobal = (global: any, country: TIsoCountry) => {
 }
 
 const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> => {
-  if (!supportedCountries.includes(country)) {
+  if (isAllowOnlySupportedCounties && !supportedCountries.includes(country)) {
     console.warn("Warning: This country with isoCode '" + country + "' is not supported")
     return false
   }
 
   let response: any = false
   let zipcodeMap: IZipCodes | false = false
-  try {
-    // response = await import('../data/countries/' + country + '.json')
-    response = await import('./countries/' + country + '.ts')
-    zipcodeMap = response.zipcodeMap
-  } catch (err) {
-    console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
 
+  for (const path of searchDataLocations) {
     try {
-      // response = await import('../data/countries/' + country + '.json')
-      response = await import(country + '.ts')
-      zipcodeMap = response.zipcodeMap
-    } catch (err) {
-      console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
-
-      try {
-        // response = await import('../data/countries/' + country + '.json')
-        response = await import('../../countries/' + country + '.ts')
-        zipcodeMap = response.zipcodeMap
-      } catch (err) {
-        console.warn('Warning: Failed importing zipcodeMap for isoCountry: ' + country + ', ' + err?.message)
-
-        return false
+      if (isFetchJsonLocally) {
+        response = await import('./countries/' + country + '.json')
+      } else {
+        response = await loadFile(path + country.toLowerCase() + '.json')
       }
+      zipcodeMap = response.zipcodeMap
 
-      return false
+      return zipcodeMap
+    } catch (err) {
+      console.warn(
+        'Warning: Failed importing zip-codes for isoCountry: ' + country + ', from: ' + path + ', ' + err?.message,
+      )
+
+      response = false
     }
-
-    return false
   }
 
-  console.log('zipcodeMap:')
-  console.log(zipcodeMap)
-  return zipcodeMap
+  return false
+}
+
+const loadFile = async (src: string) => {
+  try {
+    const response = await fetch(src)
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    return result
+  } catch (err) {
+    console.log(err)
+  }
 }
