@@ -1,4 +1,4 @@
-var zipcodeMapDK = {
+export var zipcodeMap = {
     '1000': 'København K',
     '1001': 'København K',
     '1002': 'København K',
@@ -1345,4 +1345,3 @@ var zipcodeMapDK = {
     '960': 'Hov',
     '970': 'Sumba',
 };
-export {};

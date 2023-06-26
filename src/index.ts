@@ -1,88 +1,129 @@
-import { IsoLocale } from '@omnicar/sam-types'
+import fetch from 'node-fetch'
+import { TIsoCountry } from '@omnicar/sam-types'
 
-export type Country = 'DK' | 'SE'
+const isFetchJsonLocally = false
+// const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
+// JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
+const searchDataLocations: string[] = [/*'./countries/',*/ 'https://admin.omnicar.io/data/zip-codes/']
+
+const isAllowOnlySupportedCounties = false
+const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI']
 
 export interface IZipCodes {
   [key: string]: string
 }
 
-export type ZipCodeMap = { [key in Country]?: IZipCodes }
+export type ZipCodeMap = { [key in TIsoCountry]?: IZipCodes }
 
 let zipcodeCache: ZipCodeMap = {}
 
 export interface ICityLookup {
   zipcode: number | string
-  locale: IsoLocale
+  isoCountryCode: TIsoCountry
   fileLocation?: string
   global?: any
 }
 
-export type CityConf = Pick<ICityLookup, 'locale' | 'fileLocation' | 'global'>
-
-const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
-
-export const getCountryFromLocale = (locale: IsoLocale) => locale.split('-')[1] as Country
+export type CityConf = Pick<ICityLookup, 'isoCountryCode' | 'fileLocation' | 'global'>
 
 export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCodes | undefined> => {
-  const { locale, fileLocation = defaultFileLocation, global } = cityLookup
-  const country = getCountryFromLocale(locale)
+  const { isoCountryCode, fileLocation = searchDataLocations, global } = cityLookup
 
-  if (zipcodeCache[country]) {
-    return zipcodeCache[country]
+  if (zipcodeCache[isoCountryCode]) {
+    return zipcodeCache[isoCountryCode]
   }
+
   const myGlobal: any = global || window
-  let zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, country)
+  let zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, isoCountryCode)
+
   if (zipcodeCountryMap) {
     return zipcodeCountryMap
   }
-  // Load the script asynchronously
-  const scriptPath = `${fileLocation!}${country.toLowerCase()}.js`
-  await loadScript(scriptPath, `zipCity-${country}`)
-  // Check again if the variable is available
-  zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, country)
+
+  const zipcodeMap = await loadCountryMap(isoCountryCode)
+  if (!zipcodeMap) {
+    return undefined
+  }
+
+  myGlobal[isoCountryCode] = zipcodeMap
+
+  // Check again if the variable is available.
+  zipcodeCountryMap = getZipcodeMapFromGlobal(myGlobal, isoCountryCode)
+
   if (zipcodeCountryMap) {
     return zipcodeCountryMap
   }
+
   return undefined
 }
 
-export const getCityFromZip = async (cityLookup: ICityLookup) => {
+export const getCityFromZip = async (cityLookup: ICityLookup): Promise<string | false> => {
   const { zipcode } = cityLookup
+
   const countryMap = await initZipCityCountry(cityLookup)
   if (!countryMap) {
     return false
   }
-  const zipKey = `${zipcode}`.replace(' ', '')
-  const cityName = countryMap.hasOwnProperty(zipKey) ? countryMap[zipKey] : false
+
+  const zipcodeMap = countryMap
+  const zipKey: any = `${zipcode}`.replace(' ', '')
+  const cityName = zipcodeMap.hasOwnProperty(zipKey) ? zipcodeMap[zipKey] : false
+
   return cityName
 }
 
-const getZipcodeMapFromGlobal = (global: any, country: Country) => {
-  const zipcodeCountryMap = global[`zipcodeMap${country}`]
+const getZipcodeMapFromGlobal = (global: any, country: TIsoCountry) => {
+  const zipcodeCountryMap = global[country]
+
   if (zipcodeCountryMap) {
-    zipcodeCache[country] = zipcodeCountryMap
+    zipcodeCache[country] = zipcodeCountryMap as IZipCodes
+
     return zipcodeCountryMap
   }
 }
 
-const loadScript = (src: string, id: string) => {
-  return new Promise((resolve, reject) => {
-    const existingScript = document.getElementById(id)
-    if (!existingScript) {
-      if (document.head) {
-        let s
-        s = document.createElement('script')
-        s.src = src
-        s.id = id
-        s.onload = resolve
-        s.onerror = reject
-        s.async = true
-        document.head.appendChild(s)
+const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> => {
+  if (isAllowOnlySupportedCounties && !supportedCountries.includes(country)) {
+    console.warn("Warning: This country with isoCode '" + country + "' is not supported")
+    return false
+  }
+
+  let response: any = false
+  let zipcodeMap: IZipCodes | false = false
+
+  for (const path of searchDataLocations) {
+    try {
+      if (isFetchJsonLocally) {
+        response = await import('./countries/' + country + '.json')
       } else {
-        reject()
+        response = await loadFile(path + country.toLowerCase() + '.json')
       }
-    } else {
-      resolve(existingScript)
+      zipcodeMap = response.zipcodeMap
+
+      return zipcodeMap
+    } catch (err) {
+      console.warn(
+        'Warning: Failed importing zip-codes for isoCountry: ' + country + ', from: ' + path + ', ' + err?.message,
+      )
+
+      response = false
     }
-  })
+  }
+
+  return false
+}
+
+const loadFile = async (src: string) => {
+  try {
+    const response = await fetch(src)
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    return result
+  } catch (err) {
+    console.log(err)
+  }
 }
