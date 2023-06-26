@@ -93,11 +93,11 @@ const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> 
 
   for (const path of searchDataLocations) {
     try {
-      if (isFetchJsonLocally) {
-        response = await import('./countries/' + country + '.json')
-      } else {
-        response = await loadFile(path + country.toLowerCase() + '.json')
-      }
+      // if (isFetchJsonLocally) {
+      //   response = await import('./countries/' + country + '.json')
+      // } else {
+      response = await loadFile(path + country.toLowerCase() + '.json')
+      // }
       zipcodeMap = response.zipcodeMap
 
       return zipcodeMap
