@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import { TIsoCountry } from '@omnicar/sam-types'
 
 const isFetchJsonLocally = false
-// const defaultFileLocation = 'https://cdn.jsdelivr.net/gh/omnicar/sam-zip-city/dist/countries/'
+
 // JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
 const searchDataLocations: string[] = [/*'./countries/',*/ 'https://admin.omnicar.io/data/zip-codes/']
 
