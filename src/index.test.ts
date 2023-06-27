@@ -163,3 +163,40 @@ describe('Test Zip codes for Finnish (FI)', () => {
     expect(resultCity).toEqual(expectedCity)
   })
 })
+
+describe('Test Zip codes for Norway (NO)', () => {
+  const isoCountryNO: TIsoCountry = 'NO'
+
+  beforeAll(() => {
+    initZipCityCountry({ isoCountryCode: isoCountryNO })
+  })
+
+  it('Returns the correct Norwegian city <false> for zipcode "000"', async () => {
+    const givenZipCode = '000'
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryNO })
+    const expectedCity = false
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Norwegian city Skedsmokorset for zipcode "2019"', async () => {
+    const givenZipCode = '2019'
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryNO })
+    const expectedCity = 'Skedsmokorset'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Norwegian city Oslo for zipcode 0010', async () => {
+    const givenZipCode = '0010'
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryNO })
+    const expectedCity = 'Oslo'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+  it('Returns the correct Norwegian city Tromsø for zipcode 9009', async () => {
+    const givenZipCode = 9009
+    const resultCity = await getCityFromZip({ zipcode: givenZipCode, isoCountryCode: isoCountryNO })
+    const expectedCity = 'Tromsø'
+
+    expect(resultCity).toEqual(expectedCity)
+  })
+})
