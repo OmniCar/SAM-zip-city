@@ -1,13 +1,16 @@
 import fetch from 'node-fetch'
 import { TIsoCountry } from '@omnicar/sam-types'
 
-const isFetchJsonLocally = false
+const isFetchJsonLocally = false // Default is 'false'.
 
-// JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
+/**
+ *  NOTE:
+ *  JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
+ */
 const searchDataLocations: string[] = [/*'./countries/',*/ 'https://admin.omnicar.io/data/zip-codes/']
 
 const isAllowOnlySupportedCounties = false
-const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI']
+const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI', 'NO']
 
 export interface IZipCodes {
   [key: string]: string
