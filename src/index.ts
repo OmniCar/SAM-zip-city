@@ -1,15 +1,18 @@
 import fetch from 'node-fetch'
 import { TIsoCountry } from '@omnicar/sam-types'
 
-// const isFetchJsonLocally = false // Default is 'false'.
-
 /**
  *  NOTE:
- *  JSON-files needs to be uploaded to "SAM-admin-v2/public/data/zip-codes/"
+ *  1. Create a new JSON-file with postal numbers for the new country + create
+ *     tests for it.
+ *  2. Place the new JSON-file into the directory "countries/" under "src/", so
+ *     it can be tested locally.
+ *  3. Also upload the new JSON-file to "SAM-admin-v2/public/data/zip-codes/"
+ *     so it will work properly on remote clients.
  */
-const searchDataLocations: string[] = [/*'./countries/',*/ 'https://admin.omnicar.io/data/zip-codes/']
+const searchDataLocations: string[] = ['./countries/', 'https://admin.omnicar.io/data/zip-codes/']
 
-const isAllowOnlySupportedCounties = false
+const isOnlySupportedCounties = false
 const supportedCountries: TIsoCountry[] = ['DK', 'SE', 'FI', 'NO']
 
 export interface IZipCodes {
@@ -86,7 +89,7 @@ const getZipcodeMapFromGlobal = (global: any, country: TIsoCountry) => {
 }
 
 const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> => {
-  if (isAllowOnlySupportedCounties && !supportedCountries.includes(country)) {
+  if (isOnlySupportedCounties && !supportedCountries.includes(country)) {
     console.warn("Warning: This country with isoCode '" + country + "' is not supported")
     return false
   }
@@ -96,17 +99,21 @@ const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> 
 
   for (const path of searchDataLocations) {
     try {
-      // if (isFetchJsonLocally) {
-      //   response = await import('./countries/' + country + '.json')
-      // } else {
-      response = await loadFile(path + country.toLowerCase() + '.json')
-      // }
-      zipcodeMap = response.zipcodeMap
+      // Try first with loading as a remote asset (URL)!
+      if (path.startsWith('http')) {
+        response = await loadFile(path + country.toLowerCase() + '.json')
+      }
 
+      // If above fails, then try importing (as a local asset)!
+      if (!response) {
+        response = await import(path + country.toLowerCase() + '.json')
+      }
+
+      zipcodeMap = response.zipcodeMap
       return zipcodeMap
     } catch (err) {
       console.warn(
-        'Warning: Failed importing zip-codes for isoCountry: ' + country + ', from: ' + path + ', ' + err?.message,
+        'Warning: Failed loading zip-codes for isoCountry: ' + country + ', from: ' + path + ', ' + err?.message,
       )
 
       response = false
@@ -119,6 +126,7 @@ const loadCountryMap = async (country: TIsoCountry): Promise<IZipCodes | false> 
 const loadFile = async (src: string) => {
   try {
     const response = await fetch(src)
+    if (!response) return false
 
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`)
