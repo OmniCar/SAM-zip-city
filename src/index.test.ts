@@ -127,7 +127,7 @@ describe('Test Zip codes for Sweden (SE)', () => {
   })
 })
 
-describe('Test Zip codes for Finnish (FI)', () => {
+describe('Test Zip codes for Finland (FI)', () => {
   const isoCountryFI: TIsoCountry = 'FI'
 
   beforeAll(() => {
