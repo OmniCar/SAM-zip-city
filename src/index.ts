@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import { TIsoCountry } from '@omnicar/sam-types'
 
-const isFetchJsonLocally = false // Default is 'false'.
+// const isFetchJsonLocally = false // Default is 'false'.
 
 /**
  *  NOTE:
@@ -30,7 +30,7 @@ export interface ICityLookup {
 export type CityConf = Pick<ICityLookup, 'isoCountryCode' | 'fileLocation' | 'global'>
 
 export const initZipCityCountry = async (cityLookup: CityConf): Promise<IZipCodes | undefined> => {
-  const { isoCountryCode, fileLocation = searchDataLocations, global } = cityLookup
+  const { isoCountryCode, global } = cityLookup
 
   if (zipcodeCache[isoCountryCode]) {
     return zipcodeCache[isoCountryCode]
