@@ -11,7 +11,7 @@
   "author": "Erik Beuschau, Marko K. Seppänen",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.11",
+    "node-fetch": "^3.0.0",
     "tslib": "^1.9.3",
     "@types/node-fetch": "^2.6.4"
   },
