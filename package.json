@@ -1,7 +1,7 @@
 {
   "name": "@omnicar/sam-zip-city",
   "description": "A simple tool for looking up city names based on zipcode inputs.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "keywords": [
