@@ -4,9 +4,6 @@ jobs:
     working_directory: '~/sam-zip-city'
     docker:
       - image: cimg/node:18.20.2
-        auth:
-          username: _json_key
-          password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
     steps:
       - checkout
       - run: node --version
@@ -31,9 +28,6 @@ jobs:
     working_directory: '~/sam-zip-city'
     docker:
       - image: cimg/node:18.20.2
-        auth:
-          username: _json_key
-          password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
     steps:
       - checkout
       - run: node --version
