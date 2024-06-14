@@ -9,18 +9,20 @@ jobs:
           password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
     steps:
       - checkout
+      - run: node --version
       - run:
-          name: npm-build-compile
+          name: build-and-compile
           command: |
-            npm install
-            npm run tsc-once
+            npm install yarn@1.22.22
+            yarn
+            yarn tsc-once
       - run:
           name: tests
           command: |
             echo "Running Tests"
-            npm run test
+            yarn test
       - store_artifacts:
-          path: package-lock.json
+          path: yarn-lock.json
       - persist_to_workspace:
           root: .
           paths:
@@ -34,6 +36,7 @@ jobs:
           password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
     steps:
       - checkout
+      - run: node --version
       - attach_workspace:
           at: .
       - run:

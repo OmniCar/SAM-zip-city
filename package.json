@@ -10,6 +10,15 @@
   ],
   "author": "Erik Beuschau, Marko K. Seppänen",
   "license": "MIT",
+  "scripts": {
+    "cleanup": "rm -rf dist/",
+    "tsc": "node node_modules/typescript/bin/tsc -p ./tsconfig.json",
+    "tscw": "node node_modules/typescript/bin/tsc -p ./tsconfig.json -w",
+    "tsc-once": "yarn cleanup && yarn tsc",
+    "test": "jest",
+    "test-watch": "jest --watchAll",
+    "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
+  },
   "dependencies": {
     "node-fetch": "^2.6.11",
     "tslib": "^1.9.3",
@@ -40,14 +49,5 @@
     "testPathIgnorePatterns": [
       "./dist"
     ]
-  },
-  "scripts": {
-    "cleanup": "rm -rf dist/",
-    "tsc": "node node_modules/typescript/bin/tsc -p ./tsconfig.json",
-    "tscw": "node node_modules/typescript/bin/tsc -p ./tsconfig.json -w",
-    "tsc-once": "yarn cleanup && yarn tsc",
-    "test": "jest",
-    "test-watch": "jest --watchAll",
-    "test-debug": "node --inspect node_modules/.bin/jest --watchAll"
   }
 }
