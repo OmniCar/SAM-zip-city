@@ -4,3 +4,6 @@ node_modules/
 dist/countries/*.d.ts
 dist/*.d.ts
 dist/*.js
+
+# We do not want package-lock.json by npm in this repo, since we are using yarn.
+package-lock.json

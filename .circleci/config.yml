@@ -3,24 +3,23 @@ jobs:
   build-test:
     working_directory: '~/sam-zip-city'
     docker:
-      - image: eu.gcr.io/sam-non-production/circle-gsdk-firebase-node-v2
-        auth:
-          username: _json_key
-          password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
+      - image: cimg/node:18.20.2
     steps:
       - checkout
+      - run: node --version
       - run:
-          name: npm-build-compile
+          name: build-and-compile
           command: |
-            npm install
-            npm run tsc-once
+            npm install yarn@1.22.22
+            yarn
+            yarn tsc-once
       - run:
           name: tests
           command: |
             echo "Running Tests"
-            npm run test
+            yarn test
       - store_artifacts:
-          path: package-lock.json
+          path: yarn-lock.json
       - persist_to_workspace:
           root: .
           paths:
@@ -28,12 +27,10 @@ jobs:
   deploy:
     working_directory: '~/sam-zip-city'
     docker:
-      - image: eu.gcr.io/sam-non-production/circle-gsdk-firebase-node-v2
-        auth:
-          username: _json_key
-          password: $GCLOUD_CONTAINER_REGISTRY_SERVICE_KEY 
+      - image: cimg/node:18.20.2
     steps:
       - checkout
+      - run: node --version
       - attach_workspace:
           at: .
       - run:
