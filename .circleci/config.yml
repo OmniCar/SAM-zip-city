@@ -3,7 +3,7 @@ jobs:
   build-test:
     working_directory: '~/sam-zip-city'
     docker:
-      - image: cimg/node:18.20.2
+      - image: cimg/node:18.20.3
     steps:
       - checkout
       - run: node --version
@@ -27,7 +27,7 @@ jobs:
   deploy:
     working_directory: '~/sam-zip-city'
     docker:
-      - image: cimg/node:18.20.2
+      - image: cimg/node:18.20.3
     steps:
       - checkout
       - run: node --version
