@@ -400,10 +400,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@omnicar/sam-types@0.0.641":
-  version "0.0.641"
-  resolved "https://registry.yarnpkg.com/@omnicar/sam-types/-/sam-types-0.0.641.tgz#ac42fbc617682479ee88b28d24d590737fd868a0"
-  integrity sha512-PIjHAm7HnoxGK+bV3Vqw2iWMamWz9zQ0dam6hvHblhoGUPaHXCfqlVeDdJXo2vi7atpWmZjHgF8N9sHGtlmSgQ==
+"@omnicar/sam-types@0.0.722":
+  version "0.0.722"
+  resolved "https://registry.yarnpkg.com/@omnicar/sam-types/-/sam-types-0.0.722.tgz#3968f36defced546689ef35bee5205b93d6e1d90"
+  integrity sha512-DE0DVFagfaZEUtgHXjeJYBCNJosS+hlEG738MryrFlUtphju0+MKNisimAWLxCkADScDSEb5A9uxtxM2NfV8Ww==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
